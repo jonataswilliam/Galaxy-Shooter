@@ -6,11 +6,10 @@ public class Player : MonoBehaviour {
 
 	[SerializeField] private float _speed = 5.0f;
 	[SerializeField] private GameObject _laserPrefab;
-	[SerializeField] private GameObject _tripleShootPrefab;
+	[SerializeField] private GameObject _tripleshotPrefab;
 
-	[SerializeField] bool hasTripleShoot = false;
-
-
+	private bool _hasTripleshot = false;
+	private bool _hasSuperSpeed = false;
 
 	// Intervalo entre Disparos
 	private float _fireRate = 0.25f;
@@ -29,29 +28,47 @@ public class Player : MonoBehaviour {
 	void Update () {
 		Moviment();
 		if(Input.GetButtonDown("Fire1")) {
-			Shoot();
+			shot();
 		}
 
 	}
 
-	private void Shoot() {
-		if(Time.time > _canFire) {
 
-			if(hasTripleShoot) {
-				Instantiate(_tripleShootPrefab, transform.position + new Vector3(-0.33f, 0.06f, 0), Quaternion.identity);
-			} else {
-				Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.88f, 0), Quaternion.identity);
-			}
+	IEnumerator TripleShotPowerDownRoutine() {
+		_hasTripleshot = true;
+		yield return new WaitForSeconds(5.0f);
+		_hasTripleshot = false;
+	}
 
-			_canFire = _fireRate + Time.time;
-		}
+	IEnumerator SuperSpeedDownRoutine() {
+		_hasSuperSpeed = true;
+		yield return new WaitForSeconds(5.0f);
+		_hasSuperSpeed = false;
+	}
+
+	public void ActiveTripleShot() {
+		// 1 Forma de chamar corotinas
+		StartCoroutine("TripleShotPowerDownRoutine");
+	}
+
+	public void ActiveSuperSpeed() {
+		// 2 Forma de chamar corotinas
+		StartCoroutine(SuperSpeedDownRoutine());
 	}
 
 	private void Moviment () {
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
-		transform.Translate(Vector3.right * _speed * horizontal * Time.deltaTime);
-		transform.Translate(Vector3.up * _speed * vertical * Time.deltaTime);
+
+
+		if(_hasSuperSpeed) {
+			transform.Translate(Vector3.right * _speed * 1.5f * horizontal * Time.deltaTime);
+			transform.Translate(Vector3.up * _speed * 1.5f * vertical * Time.deltaTime);
+		} else {
+			transform.Translate(Vector3.right * _speed * horizontal * Time.deltaTime);
+			transform.Translate(Vector3.up * _speed * vertical * Time.deltaTime);
+		}
+
 
 		if(transform.position.x < -9.5f) {
 			transform.position = new Vector3(9.5f, transform.position.y, 0);
@@ -67,6 +84,19 @@ public class Player : MonoBehaviour {
 
 		if(transform.position.y < -4.3f){
 			transform.position = new Vector3(transform.position.x, -4.3f, 0);
+		}
+	}
+
+	private void shot() {
+		if(Time.time > _canFire) {
+
+			if(_hasTripleshot) {
+				Instantiate(_tripleshotPrefab, transform.position + new Vector3(-0.33f, 0.06f, 0), Quaternion.identity);
+			} else {
+				Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.88f, 0), Quaternion.identity);
+			}
+
+			_canFire = _fireRate + Time.time;
 		}
 	}
 }
