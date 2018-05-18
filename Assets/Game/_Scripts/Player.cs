@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	[SerializeField] private float _speed = 5.0f;
+
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
 
-	private bool _hasTripleshot = false;
-	private bool _hasSuperSpeed = false;
+	[SerializeField] private int _playerLife = 3;
+
+	private float _speed = 5.0f;
+	[SerializeField] private bool _hasTripleshot = false;
+	[SerializeField] private bool _hasSuperSpeed = false;
 
 	// Intervalo entre Disparos
 	private float _fireRate = 0.25f;
 
 	// Armazena o tempo para permitir o proximo disparo
 	private float _canFire = 0.0f;
+
+
+	[SerializeField] private GameObject _explosionPrefab;
+
+
 
 
 
@@ -99,4 +107,14 @@ public class Player : MonoBehaviour {
 			_canFire = _fireRate + Time.time;
 		}
 	}
+
+	public void Damage () {
+		_playerLife--;
+
+		if(_playerLife < 1) {
+			Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+			Destroy(this.gameObject);
+		}
+	}
+
 }

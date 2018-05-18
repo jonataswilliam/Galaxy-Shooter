@@ -348,6 +348,48 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &1719594616
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125413061682264, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 747b261b1d253e74c85a9c306f1ed44f, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2084453367
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,10 +478,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541b2c39143b7934196ad3b95b25d911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
   _laserPrefab: {fileID: 1729826154435490, guid: aca28dc924ae6664cb4ddd14eab5a495,
     type: 2}
   _tripleshotPrefab: {fileID: 1555071059209666, guid: 300c1ad4a8cde6f4fae47a6a03ab6f9d,
+    type: 2}
+  _playerLife: 1
+  _hasTripleshot: 1
+  _hasSuperSpeed: 0
+  _explosionPrefab: {fileID: 1460182515657194, guid: a4007880fa0510648af59028d95269d5,
     type: 2}
 --- !u!61 &2084453371
 BoxCollider2D:
