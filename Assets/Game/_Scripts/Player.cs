@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
 	[SerializeField] private GameObject _shieldGameObject;
-
-	[SerializeField] private int _playerLife = 3;
-
-	private float _speed = 5.0f;
+	[SerializeField] private GameObject _explosionPrefab;
+	[SerializeField] private int _playerLife = 3;	
 	[SerializeField] private bool _hasTripleshot = false;
 	[SerializeField] private bool _hasSuperSpeed = false;
 	[SerializeField]private bool _hasShield = false;
-
+	
+	private float _speed = 5.0f;
 	// Intervalo entre Disparos
 	private float _fireRate = 0.25f;
-
 	// Armazena o tempo para permitir o proximo disparo
 	private float _canFire = 0.0f;
-
-
-	[SerializeField] private GameObject _explosionPrefab;
-
-
-
+	private UIManager _uiManager;
+	
 
 
 	// Use this for initialization
 	void Start () {
 		transform.position = new Vector3(0, -3.5f, 0);
+
+		_uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+		if(_uiManager != null) {
+			_uiManager.UpdateLives(_playerLife);
+		}
 	}
 
 	// Update is called once per frame
@@ -40,7 +39,6 @@ public class Player : MonoBehaviour {
 		if(Input.GetButtonDown("Fire1")) {
 			shot();
 		}
-
 	}
 
 
@@ -75,7 +73,6 @@ public class Player : MonoBehaviour {
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 
-
 		if(_hasSuperSpeed) {
 			transform.Translate(Vector3.right * _speed * 1.5f * horizontal * Time.deltaTime);
 			transform.Translate(Vector3.up * _speed * 1.5f * vertical * Time.deltaTime);
@@ -83,7 +80,6 @@ public class Player : MonoBehaviour {
 			transform.Translate(Vector3.right * _speed * horizontal * Time.deltaTime);
 			transform.Translate(Vector3.up * _speed * vertical * Time.deltaTime);
 		}
-
 
 		if(transform.position.x < -9.5f) {
 			transform.position = new Vector3(9.5f, transform.position.y, 0);
@@ -116,20 +112,18 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Damage () {
-
 		if(_hasShield) {
 			_hasShield = false;
 			_shieldGameObject.SetActive(false);
 			return;
 		} else {
 			_playerLife--;
+			_uiManager.UpdateLives(_playerLife);
 		}
-
 
 		if(_playerLife < 1) {
 			Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(this.gameObject);
 		}
 	}
-
 }
