@@ -9,13 +9,27 @@ public class UIManager : MonoBehaviour {
 
 	public Sprite[] lives;
 	public Image ImageHUDLives;
+	public Text scoreText;
+	public GameObject titleScreen;
+
+	private int _score;
+
 
 	public void UpdateLives(int currentLives) {
 		// Acessando o sprite do componente e alterando para a outra imagem cadastrado no array.
 		ImageHUDLives.sprite = lives[currentLives];
 	}
 
-	public void UpdateScore() {
+	public void UpdateScore(int sumScore) {
+		_score += sumScore;
+		scoreText.text = "Score: " + _score;
+	}
 
+	public void ShowTitleScreen() {
+		titleScreen.SetActive(true);
+	}
+
+	public void HideTitleScreen() {
+		titleScreen.SetActive(false);
 	}
 }

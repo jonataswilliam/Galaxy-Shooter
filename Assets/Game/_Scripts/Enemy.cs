@@ -6,15 +6,17 @@ public class Enemy : MonoBehaviour {
 
 	private float _speed = 3.0f;
 	[SerializeField] private GameObject EnemyExplosionPrefab;
+
+	private UIManager _uiManager;
+
 	// Use this for initialization
 	void Start () {
-
+		_uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
 		if(transform.position.y < -7.0f) {
 			// Redefine um valor aleatorio em X para respawn do inimigo
 			float randomX = Random.Range(-8.0f, 8.0f);
@@ -28,6 +30,8 @@ public class Enemy : MonoBehaviour {
 			Player player = other.GetComponent<Player>();
 			player.Damage();
 
+			_uiManager.UpdateScore(100);
+
 			Instantiate(EnemyExplosionPrefab, transform.position, Quaternion.identity);
 			Destroy(this.gameObject);
 
@@ -35,6 +39,8 @@ public class Enemy : MonoBehaviour {
 			if(other.transform.parent != null) {
 				Destroy(other.transform.parent.gameObject);
 			}
+
+			_uiManager.UpdateScore(100);
 
 			Instantiate(EnemyExplosionPrefab, transform.position, Quaternion.identity);
 			Destroy(other.gameObject);

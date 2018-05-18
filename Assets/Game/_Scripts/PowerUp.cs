@@ -9,7 +9,7 @@ public class PowerUp : MonoBehaviour {
 // 1 - Super Speed
 // 2 - Shield
 
-	private float _speed = 3.0f;
+	private float _speed = 1.0f;
 
 	// Use this for initialization
 	void Start () {

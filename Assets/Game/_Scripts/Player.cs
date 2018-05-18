@@ -8,29 +8,29 @@ public class Player : MonoBehaviour {
 	[SerializeField] private GameObject _tripleshotPrefab;
 	[SerializeField] private GameObject _shieldGameObject;
 	[SerializeField] private GameObject _explosionPrefab;
-	[SerializeField] private int _playerLife = 3;	
+	[SerializeField] private int _playerLife = 3;
 	[SerializeField] private bool _hasTripleshot = false;
 	[SerializeField] private bool _hasSuperSpeed = false;
 	[SerializeField]private bool _hasShield = false;
-	
+
 	private float _speed = 5.0f;
 	// Intervalo entre Disparos
 	private float _fireRate = 0.25f;
 	// Armazena o tempo para permitir o proximo disparo
 	private float _canFire = 0.0f;
 	private UIManager _uiManager;
-	
-
+	private GameManager _gameManager;
 
 	// Use this for initialization
 	void Start () {
 		transform.position = new Vector3(0, -3.5f, 0);
 
 		_uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-
 		if(_uiManager != null) {
 			_uiManager.UpdateLives(_playerLife);
 		}
+
+		_gameManager = GameObject.Find("Main Camera").GetComponent<GameManager>();
 	}
 
 	// Update is called once per frame
@@ -123,6 +123,8 @@ public class Player : MonoBehaviour {
 
 		if(_playerLife < 1) {
 			Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+			_gameManager.gameOver = true;
+			_uiManager.ShowTitleScreen();
 			Destroy(this.gameObject);
 		}
 	}
