@@ -7,12 +7,14 @@ public class Player : MonoBehaviour {
 
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
+	[SerializeField] private GameObject _shieldGameObject;
 
 	[SerializeField] private int _playerLife = 3;
 
 	private float _speed = 5.0f;
 	[SerializeField] private bool _hasTripleshot = false;
 	[SerializeField] private bool _hasSuperSpeed = false;
+	[SerializeField]private bool _hasShield = false;
 
 	// Intervalo entre Disparos
 	private float _fireRate = 0.25f;
@@ -64,6 +66,11 @@ public class Player : MonoBehaviour {
 		StartCoroutine(SuperSpeedDownRoutine());
 	}
 
+	public void ActiveShield () {
+		_hasShield = true;
+		_shieldGameObject.SetActive(true);
+	}
+
 	private void Moviment () {
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
@@ -109,7 +116,15 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Damage () {
-		_playerLife--;
+
+		if(_hasShield) {
+			_hasShield = false;
+			_shieldGameObject.SetActive(false);
+			return;
+		} else {
+			_playerLife--;
+		}
+
 
 		if(_playerLife < 1) {
 			Instantiate(_explosionPrefab, transform.position, Quaternion.identity);

@@ -41,7 +41,7 @@ public class PowerUp : MonoBehaviour {
 						break;
 
 					case 2:
-						// player.ActiveShield();
+						player.ActiveShield();
 						break;
 				}
 
