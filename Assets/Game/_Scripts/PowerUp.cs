@@ -9,6 +9,8 @@ public class PowerUp : MonoBehaviour {
 // 1 - Super Speed
 // 2 - Shield
 
+[SerializeField] private AudioClip _powerUpSound;
+
 	private float _speed = 1.0f;
 
 	// Use this for initialization
@@ -45,9 +47,9 @@ public class PowerUp : MonoBehaviour {
 						break;
 				}
 
-
 			}
 
+			AudioSource.PlayClipAtPoint(_powerUpSound, Camera.main.transform.position);
 			Destroy(this.gameObject);
 		}
 	}

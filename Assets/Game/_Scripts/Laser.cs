@@ -6,9 +6,14 @@ public class Laser : MonoBehaviour {
 
 	private float _speed = 10.0f;
 
+	//Como o objeto será destruido para que toque o efeito por completo utilizar o AudioSource.PlayClipAtPoint( variavel tipo AudioClip )
+	[SerializeField] private AudioClip _laserShotAudio;
+
 	// Use this for initialization
 	void Start () {
-
+		if(_laserShotAudio != null) {
+			AudioSource.PlayClipAtPoint(_laserShotAudio, Camera.main.transform.position);
+		}
 	}
 
 	// Update is called once per frame

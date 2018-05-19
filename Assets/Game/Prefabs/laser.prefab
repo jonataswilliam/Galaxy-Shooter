@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598ef6a2cb0381f4f9c23b6aab5a6b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _laserShotAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
 --- !u!212 &212512917447604988
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -7,12 +7,12 @@ public class Player : MonoBehaviour {
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
 	[SerializeField] private GameObject _shieldGameObject;
+	[SerializeField] private GameObject[] _engineFail;
 	[SerializeField] private GameObject _explosionPrefab;
 	[SerializeField] private int _playerLife = 3;
 	[SerializeField] private bool _hasTripleshot = false;
 	[SerializeField] private bool _hasSuperSpeed = false;
-	[SerializeField]private bool _hasShield = false;
-
+	[SerializeField] private bool _hasShield = false;
 	private float _speed = 5.0f;
 	// Intervalo entre Disparos
 	private float _fireRate = 0.25f;
@@ -20,6 +20,8 @@ public class Player : MonoBehaviour {
 	private float _canFire = 0.0f;
 	private UIManager _uiManager;
 	private GameManager _gameManager;
+	private Animator _anim;
+	private int engineIndex = 2;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour {
 		}
 
 		_gameManager = GameObject.Find("Main Camera").GetComponent<GameManager>();
+		_anim = GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
@@ -73,12 +76,29 @@ public class Player : MonoBehaviour {
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 
+		float xMoviment = Input.GetAxisRaw("Horizontal");
+
 		if(_hasSuperSpeed) {
 			transform.Translate(Vector3.right * _speed * 1.5f * horizontal * Time.deltaTime);
 			transform.Translate(Vector3.up * _speed * 1.5f * vertical * Time.deltaTime);
 		} else {
 			transform.Translate(Vector3.right * _speed * horizontal * Time.deltaTime);
 			transform.Translate(Vector3.up * _speed * vertical * Time.deltaTime);
+		}
+
+		// Se a nave estiver indo para a esquerda
+		if(xMoviment < -0) {
+			_anim.SetBool("Turn_Left", true);
+			_anim.SetBool("Turn_Right", false);
+		// Se a nave estiver indo para a direta
+		} else if (xMoviment > 0) {
+			_anim.SetBool("Turn_Right", true);
+			_anim.SetBool("Turn_Left", false);
+
+		// Se não houver movimentacao lateral na nave
+		} else {
+			_anim.SetBool("Turn_Left", false);
+			_anim.SetBool("Turn_Right", false);
 		}
 
 		if(transform.position.x < -9.5f) {
@@ -118,6 +138,19 @@ public class Player : MonoBehaviour {
 			return;
 		} else {
 			_playerLife--;
+
+			if (engineIndex == 0) {
+				engineIndex = 1;
+			} else if (engineIndex == 1) {
+				engineIndex = 0;
+			} else {
+				engineIndex = Random.Range(0, 2);
+			}
+
+
+
+
+			_engineFail[engineIndex].SetActive(true);
 			_uiManager.UpdateLives(_playerLife);
 		}
 

@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void HideTitleScreen() {
+		scoreText.text = "Score: 0";
 		titleScreen.SetActive(false);
 	}
 }
